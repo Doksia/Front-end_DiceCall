@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../services/api';
 import { GameCard } from '../components/GameCard/GameCard';
+import { JoinModal } from '../components/JoinModal/JoinModal';
 import './Home.css';
 
 export const Home = () => {
@@ -8,7 +9,8 @@ export const Home = () => {
   const [filteredCampaigns, setFilteredCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  const [activeCampaignId, setActiveCampaignId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [searchSystem, setSearchSystem] = useState('');
   const [filterFormat, setFilterFormat] = useState('All');
 
@@ -47,10 +49,15 @@ export const Home = () => {
     setFilteredCampaigns(result);
   }, [searchSystem, filterFormat, campaigns]);
 
-  const handleJoinCampaign = (campaignId) => {
-    
-    alert(`Preparing request to join the campaign with ID: ${campaignId}.  Link your character!`);
-  };
+ const handleJoinCampaign = (campaignId) => {
+  setActiveCampaignId(campaignId);
+  setShowModal(true);
+};
+const handleRequestSuccess = (message) => {
+  alert(message);
+  setShowModal(false);
+  setActiveCampaignId(null);
+};
 
   if (loading) return <div className="loading-screen">📜 Looking for the dices (Loading)...</div>;
 
@@ -95,9 +102,15 @@ export const Home = () => {
               campaign={campaign} 
               onJoin={handleJoinCampaign} 
             />
-          ))}
-        </div>
-      )}
+             ))}
+        </div> 
+        )} {showModal && (
+  <JoinModal 
+    campaignId={activeCampaignId} 
+    onClose={() => setShowModal(false)} 
+    onSuccess={handleRequestSuccess}
+  />
+)}
     </div>
   );
 };

@@ -1,0 +1,265 @@
+.player-dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.player-dashboard-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.player-dashboard-header h1 {
+  color: #d4af37;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.player-dashboard-header p {
+  color: #aaa;
+}
+
+.player-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .player-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.player-section h2 {
+  color: #e0e0e0;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.player-cards-container, .player-requests-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.player-char-card {
+  background-color: #262626;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 1.25rem;
+  transition: border-color 0.2s ease;
+}
+
+.player-char-card:hover {
+  border-color: #d4af37;
+}
+
+.player-char-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+
+.char-badge-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.char-system {
+  background-color: #d4af37;
+  color: #1a1a1a;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.char-level {
+  background-color: #444;
+  color: #eee;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.player-char-card p {
+  margin: 0.35rem 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.player-request-card {
+  background-color: #262626;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+
+.req-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.req-header h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.player-request-card p {
+  margin: 0.35rem 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.req-date {
+  color: #777 !important;
+  font-size: 0.8rem !important;
+  margin-top: 0.75rem !important;
+}
+
+.status-tag {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.status-tag.pending {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+  border: 1px solid #ffc107;
+}
+
+.status-tag.accepted {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.status-tag.rejected {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.crud-actions-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  justify-content: flex-end;
+}
+
+.btn-crud-edit {
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-edit:hover {
+  background-color: rgba(212, 175, 55, 0.15);
+}
+
+.btn-crud-delete {
+  background-color: transparent;
+  border: 1px solid #721c24;
+  color: #f8d7da;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-delete:hover {
+  background-color: #721c24;
+  color: #ffffff;
+}
+
+.edit-form-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.edit-form-inline h3 {
+  color: #d4af37;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.edit-form-inline .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.edit-form-inline label {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.edit-form-inline input {
+  padding: 0.5rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.edit-form-inline input:focus {
+  outline: none;
+  border-color: #d4af37;
+}
+
+.btn-crud-save {
+  background-color: #d4af37;
+  border: none;
+  color: #1a1a1a;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-crud-save:hover {
+  background-color: #f3cd47;
+}
+
+.btn-crud-cancel {
+  background-color: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-cancel:hover {
+  border-color: #555;
+  color: #fff;
+}

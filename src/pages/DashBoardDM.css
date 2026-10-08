@@ -1,0 +1,347 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-header h1 {
+  color: #d4af37;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+  color: #aaa;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 800px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.campaigns-sidebar {
+  background-color: #262626;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+
+.campaigns-sidebar h3 {
+  color: #d4af37;
+  margin-top: 0;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.75rem;
+}
+
+.campaign-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.campaign-item {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.campaign-item:hover {
+  background-color: #333;
+  color: #d4af37;
+}
+
+.campaign-item.active {
+  background-color: rgba(212, 175, 55, 0.15);
+  border: 1px solid #d4af37;
+  color: #d4af37;
+}
+
+.campaign-item strong {
+  font-size: 1rem;
+}
+
+.campaign-item span {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.requests-main {
+  background-color: #262626;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 2rem;
+  min-height: 400px;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #aaa;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.slots-info {
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.request-row-card {
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .request-row-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.applicant-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #d4af37;
+  font-size: 1.2rem;
+}
+
+.applicant-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-action-accept {
+  background-color: #d4af37;
+  border: none;
+  color: #1a1a1a;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-action-accept:hover {
+  background-color: #f3cd47;
+}
+
+.btn-action-reject {
+  background-color: transparent;
+  border: 1px solid #721c24;
+  color: #f8d7da;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-action-reject:hover {
+  background-color: #721c24;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.status-badge.accepted {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.status-badge.rejected {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.loading-text, .no-data-text {
+  color: #aaa;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.campaign-detail-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.btn-crud-delete-campaign {
+  background-color: transparent;
+  border: 1px solid #721c24;
+  color: #f8d7da;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-delete-campaign:hover {
+  background-color: #721c24;
+  color: #ffffff;
+}
+
+.campaign-info-box {
+  background-color: #333;
+  padding: 1.25rem;
+  border-radius: 6px;
+  border-left: 4px solid #d4af37;
+  margin-bottom: 2rem;
+}
+
+.campaign-info-box p {
+  margin: 0.4rem 0;
+  color: #ccc;
+  font-size: 0.95rem;
+}
+
+.btn-crud-edit-campaign {
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-edit-campaign:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+.campaign-edit-box {
+  background-color: #333;
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #d4af37;
+}
+
+.campaign-edit-box h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.campaign-edit-box .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.campaign-edit-box label {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.campaign-edit-box input, 
+.campaign-edit-box select {
+  padding: 0.5rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #222;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.campaign-edit-box input:focus, 
+.campaign-edit-box select:focus {
+  outline: none;
+  border-color: #d4af37;
+}
+
+.crud-actions-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  justify-content: flex-end;
+}
+
+.btn-crud-save {
+  background-color: #d4af37;
+  border: none;
+  color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-crud-save:hover {
+  background-color: #f3cd47;
+}
+
+.btn-crud-cancel {
+  background-color: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-cancel:hover {
+  border-color: #555;
+  color: #fff;
+}
+
+.section-divider-title {
+  margin-top: 2rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
+  color: #d4af37;
+}

@@ -1,0 +1,104 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #262626;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #d4af37;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.navbar-brand {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #d4af37;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-text {
+  letter-spacing: 0.5px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-item {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  color: #d4af37;
+  background-color: #333;
+}
+
+.nav-item.active {
+  color: #1a1a1a;
+  background-color: #d4af37;
+  font-weight: bold;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.user-welcome {
+  color: #eee;
+  font-size: 0.9rem;
+}
+
+.user-welcome strong {
+  color: #d4af37;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #721c24;
+  color: #f8d7da;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: #721c24;
+  color: #fff;
+}
+
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .navbar-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .navbar-user {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid #333;
+    padding-top: 0.75rem;
+  }
+}
