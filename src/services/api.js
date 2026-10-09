@@ -19,8 +19,12 @@ export const apiRequest = async (endpoint, method = 'GET', body = null) => {
     config.body = JSON.stringify(body);
   }
 
-  try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, config);
+ try {
+    let calibratedEndpoint = endpoint;
+    if (endpoint.startsWith('/requests')) {
+      calibratedEndpoint = `/api${endpoint}`;
+    }
+    const response = await fetch(`${BASE_URL}${calibratedEndpoint}`, config);
     const data = await response.json();
     
     if (!response.ok) {

@@ -11,12 +11,10 @@ export const JoinModal = ({ campaignId, onClose, onSuccess }) => {
 
   useEffect(() => {
     const fetchUserCharacters = async () => {
-      try {
-        setLoading(true);
-        const data = await apiRequest('/api/api/characters', 'GET');
-        const list = Array.isArray(data) ? data : data.characters || [];
-        setCharacters(list);
-        if (list.length > 0) setSelectedCharacter(list[0]._id);
+    try {
+      const data = await apiRequest('/api/api/characters/myCharacters', 'GET');
+      const charList = Array.isArray(data) ? data : data.characters || [];
+      setCharacters(charList);
       } catch (err) {
         setError('We havent found your characters. Have you created anyone yet?');
       } finally {
@@ -34,7 +32,7 @@ export const JoinModal = ({ campaignId, onClose, onSuccess }) => {
     try {
       setSubmitting(true);
       setError('');
-      await apiRequest('/requests', 'POST', {
+      await apiRequest('/api/requests', 'POST', {
         campaign: campaignId,
         character: selectedCharacter
       });
@@ -73,6 +71,8 @@ export const JoinModal = ({ campaignId, onClose, onSuccess }) => {
                 value={selectedCharacter} 
                 onChange={(e) => setSelectedCharacter(e.target.value)}
               >
+                <option value="">-- Choose your Adventurer --</option>
+                
                 {characters.map(char => (
                   <option key={char._id} value={char._id}>
                     {char.name} ({char.class} - Level {char.level})

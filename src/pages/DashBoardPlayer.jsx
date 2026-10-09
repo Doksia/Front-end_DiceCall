@@ -8,19 +8,22 @@ export const DashboardPlayer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editingCharId, setEditingCharId] = useState(null);
-  const [editLevel, setEditLevel] = useState(1);
+  
+  const [editName, setEditName] = useState('');
+  const [editGameSystem, setEditGameSystem] = useState('');
+  const [editRace, setEditRace] = useState('');
   const [editClass, setEditClass] = useState('');
+  const [editLevel, setEditLevel] = useState(1);
+  const [editAlignment, setEditAlignment] = useState('');
 
-  const fetchPlayerData = async () => {
+   const fetchPlayerData = async () => {
     try {
       setLoading(true);
       setError('');
-
       const charData = await apiRequest('/api/api/characters/myCharacters', 'GET');
       const charList = Array.isArray(charData) ? charData : charData.characters || [];
       setCharacters(charList);
-
-      const reqData = await apiRequest('/requests', 'GET');
+      const reqData = await apiRequest('/api/requests', 'GET');
       const reqList = Array.isArray(reqData) ? reqData : reqData.requests || [];
       setRequests(reqList);
 
@@ -49,30 +52,30 @@ export const DashboardPlayer = () => {
 
   const startEdit = (char) => {
     setEditingCharId(char._id);
-    setEditLevel(char.level);
+    setEditName(char.name);
+    setEditGameSystem(char.game_system);
+    setEditRace(char.race);
     setEditClass(char.class);
+    setEditLevel(char.level);
+    setEditAlignment(char.alignment);
   };
 
   const handleSaveEdit = async (charId) => {
-    // Find the original character object to preserve its static fields
     const originalChar = characters.find(char => char._id === charId);
     if (!originalChar) return;
 
     try {
-      // CALIBRATION: Send ALL fields as requested by your backend destructuring
       const updatedData = {
-        name: originalChar.name,
-        game_system: originalChar.game_system,
-        race: originalChar.race,
-        class: editClass, // Maps to class: characterClass in your backend
+        name: editName,
+        game_system: editGameSystem,
+        race: editRace,
+        class: editClass, 
         level: Number(editLevel),
-        alignment: originalChar.alignment
+        alignment: editAlignment
       };
 
       const responseData = await apiRequest(`/api/api/characters/${charId}`, 'PUT', updatedData);
-      
-      // Sync local state with the backend response
-      setCharacters(prev => prev.map(char => 
+     setCharacters(prev => prev.map(char => 
         char._id === charId ? { ...char, ...responseData } : char
       ));
       
@@ -108,12 +111,28 @@ export const DashboardPlayer = () => {
                     <div className="edit-form-inline">
                       <h3>Editing {char.name}</h3>
                       <div className="form-group">
+                        <label>Name:</label>
+                        <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>Game System:</label>
+                        <input type="text" value={editGameSystem} onChange={(e) => setEditGameSystem(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>Race:</label>
+                        <input type="text" value={editRace} onChange={(e) => setEditRace(e.target.value)} />
+                      </div>
+                      <div className="form-group">
                         <label>Class/Subclass:</label>
                         <input type="text" value={editClass} onChange={(e) => setEditClass(e.target.value)} />
                       </div>
                       <div className="form-group">
                         <label>Level:</label>
                         <input type="number" min="1" value={editLevel} onChange={(e) => setEditLevel(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>Alignment:</label>
+                        <input type="text" value={editAlignment} onChange={(e) => setEditAlignment(e.target.value)} />
                       </div>
                       <div className="crud-actions-row">
                         <button type="button" className="btn-crud-cancel" onClick={() => setEditingCharId(null)}>Cancel</button>

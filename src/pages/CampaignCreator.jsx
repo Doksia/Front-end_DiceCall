@@ -28,12 +28,11 @@ export const CampaignCreator = () => {
       setLoading(false);
       return setError('Game System and maximum players are mandatory.');
     }
-    const campaignData = {
-      title: title || `Campaign in ${gameSystem}`, 
+   const campaignData = {
       game_system: gameSystem,
-      format,
-      short_description: shortDescription,
-      status: Number(currentPlayers) >= Number(maxPlayers) ? 'Full' : 'Open',
+      format: format,
+      short_description: shortDescription ? shortDescription.substring(0, 199) : "",
+      status: Number(currentPlayers) >= Number(maxPlayers) ? 'Full' : 'Open', 
       looking_for: lookingFor,
       current_players: Number(currentPlayers),
       max_players: Number(maxPlayers),

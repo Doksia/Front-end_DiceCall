@@ -11,10 +11,14 @@ export const DashboardDM = () => {
   const [loadingCampaigns, setLoadingCampaigns] = useState(true);
   const [loadingRequests, setLoadingRequests] = useState(false);
   const [error, setError] = useState('');
-
   const [isEditingCampaign, setIsEditingCampaign] = useState(false);
+  const [editGameSystem, setEditGameSystem] = useState('');
+  const [editFormat, setEditFormat] = useState('Online');
+  const [editShortDescription, setEditShortDescription] = useState('');
   const [editCurrentPlayers, setEditCurrentPlayers] = useState(0);
+  const [editMaxPlayers, setEditMaxPlayers] = useState(1);
   const [editLookingFor, setEditLookingFor] = useState('All');
+  const [editCampaignLevel, setEditCampaignLevel] = useState(1);
 
   useEffect(() => {
     const fetchDMCampaigns = async () => {
@@ -39,8 +43,14 @@ export const DashboardDM = () => {
     setIsEditingCampaign(false); 
     try {
       setLoadingRequests(true);
-      const data = await apiRequest(`/requests/campaign/${campaign._id}`, 'GET');
-      setRequests(Array.isArray(data) ? data : data.requests || []);
+      setError('');
+      
+      const data = await apiRequest(`/api/requests/campaign/${campaign._id}`, 'GET');
+      const finalRequestsList = Array.isArray(data) 
+        ? data 
+        : (data.requests || data.savedRequest || []);
+        
+      setRequests(finalRequestsList);
     } catch (err) {
       setError('Requests for this campaign could not be obtained.');
     } finally {
@@ -60,17 +70,23 @@ export const DashboardDM = () => {
     }
   };
 
-  const handleSaveCampaignEdit = async () => {
+   const handleSaveCampaignEdit = async () => {
     try {
       const updatedData = {
+        game_system: editGameSystem,
+        format: editFormat,
+        short_description: editShortDescription,
+        looking_for: editLookingFor,
         current_players: Number(editCurrentPlayers),
         currentPlayers: Number(editCurrentPlayers), 
-        max_players: Number(selectedCampaign.max_players),
-        maxPlayers: Number(selectedCampaign.max_players), 
-        looking_for: editLookingFor
+        max_players: Number(editMaxPlayers),
+        maxPlayers: Number(editMaxPlayers), 
+        campaign_level: Number(editCampaignLevel)
       };
+
       const responseData = await apiRequest(`/api/api/campaigns/${selectedCampaign._id}`, 'PUT', updatedData);
       const mergedCampaign = { ...selectedCampaign, ...responseData };
+      
       setSelectedCampaign(mergedCampaign);
       setMyCampaigns(prev => prev.map(c => c._id === mergedCampaign._id ? mergedCampaign : c));
       setIsEditingCampaign(false);
@@ -82,11 +98,18 @@ export const DashboardDM = () => {
 
   const handleStatusChange = async (requestId, newStatus) => {
     try {
-      await apiRequest(`/requests/${requestId}`, 'POST', { status: newStatus });
-      setRequests(prev => prev.map(req => req._id === requestId ? { ...req, status: newStatus } : req));
+      const updatedData = { 
+        status: newStatus.toLowerCase() 
+      };
+
+      await apiRequest(`/api/requests/${requestId}`, 'POST', updatedData);
+      setRequests(prev => prev.map(req => 
+        req._id === requestId ? { ...req, status: newStatus, request_status: newStatus } : req
+      ));
+      
       alert(`Request processed successfully.`);
     } catch (err) {
-      alert(err.message);
+      alert(err.message || 'Error to process the status of the request.');
     }
   };
 
@@ -136,8 +159,32 @@ export const DashboardDM = () => {
                 <div className="campaign-edit-box">
                   <h3>Modify Campaign Options</h3>
                   <div className="form-group">
+                    <label>Game System:</label>
+                    <input type="text" value={editGameSystem} onChange={(e) => setEditGameSystem(e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label>Format:</label>
+                    <select value={editFormat} onChange={(e) => setEditFormat(e.target.value)}>
+                      <option value="Online">Online</option>
+                      <option value="In-person">In-person</option>
+                      <option value="Hybrid">Hybrid</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Description:</label>
+                    <input type="text" value={editShortDescription} onChange={(e) => setEditShortDescription(e.target.value)} />
+                  </div>
+                  <div className="form-group">
                     <label>Current players:</label>
                     <input type="number" value={editCurrentPlayers} onChange={(e) => setEditCurrentPlayers(e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label>Max players:</label>
+                    <input type="number" min="1" value={editMaxPlayers} onChange={(e) => setEditMaxPlayers(e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label>Campaign Level:</label>
+                    <input type="number" min="1" value={editCampaignLevel} onChange={(e) => setEditCampaignLevel(e.target.value)} />
                   </div>
                   <div className="form-group">
                     <label>Looking for roles:</label>
@@ -146,6 +193,9 @@ export const DashboardDM = () => {
                       <option value="Healer">Healer</option>
                       <option value="Tank">Tank</option>
                       <option value="Dps">Dps</option>
+                      <option value="Healer and Tank">Healer and Tank</option>
+                      <option value="Healer and Dps">Healer and Dps</option>
+                      <option value="Tank and Dps">Tank and Dps</option>
                     </select>
                   </div>
                   <div className="crud-actions-row">
@@ -156,11 +206,18 @@ export const DashboardDM = () => {
               ) : (
                 <div className="campaign-info-box">
                   <p>System: <strong>{selectedCampaign.game_system}</strong> | Format: <strong>{selectedCampaign.format}</strong></p>
+                  <p>Description: <strong>{selectedCampaign.short_description || "No description provided."}</strong></p>
+                  <p>Campaign Level: <strong>Lvl {selectedCampaign.campaign_level || 1}</strong></p>
                   <p>Players: <strong>{selectedCampaign.current_players} / {selectedCampaign.max_players}</strong></p>
                   <p>Looking for: <strong>{selectedCampaign.looking_for}</strong></p>
                   <button type="button" className="btn-crud-edit-campaign" onClick={() => {
-                    setEditCurrentPlayers(selectedCampaign.current_players);
-                    setEditLookingFor(selectedCampaign.looking_for);
+                    setEditGameSystem(selectedCampaign.game_system || '');
+                    setEditFormat(selectedCampaign.format || 'Online');
+                    setEditShortDescription(selectedCampaign.short_description || '');
+                    setEditCurrentPlayers(selectedCampaign.current_players || 0);
+                    setEditMaxPlayers(selectedCampaign.max_players || 1);
+                    setEditLookingFor(selectedCampaign.looking_for || 'All');
+                    setEditCampaignLevel(selectedCampaign.campaign_level || 1);
                     setIsEditingCampaign(true);
                   }}>
                     📝 Edit Table Configuration
@@ -172,7 +229,7 @@ export const DashboardDM = () => {
               {loadingRequests && <p className="loading-text">Reading requests...</p>}
               {!loadingRequests && requests.length === 0 && <p className="no-data-text">No applications yet.</p>}
               
-              <div className="requests-list">
+             <div className="requests-list">
                 {requests.map(req => (
                   <div key={req._id} className="request-row-card">
                     <div className="applicant-info">
@@ -180,15 +237,15 @@ export const DashboardDM = () => {
                       <p>👤 <strong>Player:</strong> {req.applicant?.name || 'Hidden'}</p>
                       <p>⚔️ <strong>Sheet:</strong> {req.character?.race} {req.character?.class} (Level {req.character?.level})</p>
                     </div>
-                    <div className="request-actions">
-                      {req.status === 'Pending' ? (
+                      <div className="request-actions">
+                      {(req.status?.toLowerCase() === 'pending' || req.request_status?.toLowerCase() === 'pending') ? (
                         <>
                           <button type="button" className="btn-action-reject" onClick={() => handleStatusChange(req._id, 'Rejected')}>Reject</button>
                           <button type="button" className="btn-action-accept" onClick={() => handleStatusChange(req._id, 'Accepted')}>Accept</button>
                         </>
                       ) : (
-                        <span className={`status-badge ${req.status?.toLowerCase() || 'pending'}`}>
-                          {req.status}
+                        <span className={`status-badge ${(req.status || req.request_status)?.toLowerCase() || 'pending'}`}>
+                          {req.status || req.request_status}
                         </span>
                       )}
                     </div>
