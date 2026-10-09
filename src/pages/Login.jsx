@@ -13,21 +13,27 @@ export const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     if (!email || !password) {
       setLoading(false);
-      return setError('Por favor, rellena todos los campos.');
+      return setError('Please, fill all the fields.');
     }
 
     try {
       const data = await apiRequest('/api/api/auth/login', 'POST', { email, password });
-      if (data.token) {
-        login(data.token, data.user); 
-        alert(`Welcome to the tabern, ${data.user.name}!`);
+      console.log("=== BACKEND RESPONSE ===", data);
+       if (data.token) {
+        const sanitizedUser = {
+          ...data.user,
+          _id: data.user.id 
+        };
+        login(data.token, sanitizedUser); 
+        
+        alert(`Welcome to the tabern, ${sanitizedUser.name}!`);
         navigate('/home');
       }
     } catch (err) {
@@ -40,7 +46,7 @@ export const Login = () => {
   return (
     <div className="login-container">
       <form className="login-card" onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
+        <h2>Login</h2>
         <p className="subtitle">Search for your next adventure</p>
         
         {error && <div className="error-message">⚠️ {error}</div>}

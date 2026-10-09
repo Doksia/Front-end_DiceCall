@@ -49,7 +49,7 @@ export const Register = () => {
         {success && <div className="success-message">⚔️ {success}</div>}
 
         <div className="form-group">
-          <label htmlFor="name">User name / DM</label>
+          <label htmlFor="name">User name</label>
           <input
             type="text"
             id="name"

@@ -28,24 +28,24 @@ export const CharacterCreator = () => {
       return setError('Please, fill in all the fields on the form.');
     }
 
-    const characterData = {
-      name,
-      game_system: gameSystem,
-      race,
-      class: charClass,
-      level: Number(level),
-      alignment
-    };
+     const characterData = {};
+    characterData.name = name;
+    characterData.game_system = gameSystem;
+    characterData.race = race;
+    characterData.class = charClass; 
+    characterData.level = Number(level);
+    characterData.alignment = alignment;
 
     try {
-      await apiRequest('/api/api/characters', 'POST', characterData);
+      setLoading(true);
+      const data = await apiRequest('/api/api/characters', 'POST', characterData);
       
-      setSuccess('Character sheet created!');
-      setTimeout(() => {
-        navigate('/home'); 
-      }, 2000);
+      if (data.Success || data.savedCharacter) {
+        alert('Character sheet successfully saved in the tavern records!');
+        navigate('/player-dashboard');
+      }
     } catch (err) {
-      setError(err.message || 'Error creating the character sheet.');
+      setError(err.message || 'There was an error forging your character.');
     } finally {
       setLoading(false);
     }
@@ -68,7 +68,7 @@ export const CharacterCreator = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ej. LoremIpsum"
+              placeholder="Ex. LoremIpsum"
             />
           </div>
 

@@ -16,7 +16,7 @@ export const DashboardPlayer = () => {
       setLoading(true);
       setError('');
 
-      const charData = await apiRequest('/api/api/characters', 'GET');
+      const charData = await apiRequest('/api/api/characters/myCharacters', 'GET');
       const charList = Array.isArray(charData) ? charData : charData.characters || [];
       setCharacters(charList);
 
@@ -153,11 +153,11 @@ export const DashboardPlayer = () => {
                 <div key={req._id} className="player-request-card">
                   <div className="req-header">
                     <h4>{req.campaign?.title || `Campaña de ${req.campaign?.game_system || 'Rol'}`}</h4>
-                    <span className={`status-tag ${req.request_status?.toLowerCase() || 'pending'}`}>
-                      {req.request_status === 'Pending' && '⏳ Pending'}
-                      {req.request_status === 'Accepted' && '🛡️ Accepted'}
-                      {req.request_status === 'Rejected' && '❌ Rejected'}
-                      {req.request_status === 'Not requested' && '⚠️ Not requested'}
+                    <span className={`status-tag ${req.status?.toLowerCase() || 'pending'}`}>
+                      {req.status === 'Pending' && '⏳ Pending'}
+                      {req.status === 'Accepted' && '🛡️ Accepted'}
+                      {req.status === 'Rejected' && '❌ Rejected'}
+                      {req.status === 'Not requested' && '⚠️ Not requested'}
                     </span>
                   </div>
                   <p>👤 <strong>Character sent:</strong> {req.character?.name || 'Deleted sheet'}</p>

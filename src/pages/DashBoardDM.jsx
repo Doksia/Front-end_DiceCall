@@ -82,8 +82,8 @@ export const DashboardDM = () => {
 
   const handleStatusChange = async (requestId, newStatus) => {
     try {
-      await apiRequest(`/requests/${requestId}`, 'POST', { request_status: newStatus });
-      setRequests(prev => prev.map(req => req._id === requestId ? { ...req, request_status: newStatus } : req));
+      await apiRequest(`/requests/${requestId}`, 'POST', { status: newStatus });
+      setRequests(prev => prev.map(req => req._id === requestId ? { ...req, status: newStatus } : req));
       alert(`Request processed successfully.`);
     } catch (err) {
       alert(err.message);
@@ -181,14 +181,14 @@ export const DashboardDM = () => {
                       <p>⚔️ <strong>Sheet:</strong> {req.character?.race} {req.character?.class} (Level {req.character?.level})</p>
                     </div>
                     <div className="request-actions">
-                      {req.request_status === 'Pending' ? (
+                      {req.status === 'Pending' ? (
                         <>
                           <button type="button" className="btn-action-reject" onClick={() => handleStatusChange(req._id, 'Rejected')}>Reject</button>
                           <button type="button" className="btn-action-accept" onClick={() => handleStatusChange(req._id, 'Accepted')}>Accept</button>
                         </>
                       ) : (
-                        <span className={`status-badge ${req.request_status?.toLowerCase() || 'pending'}`}>
-                          {req.request_status}
+                        <span className={`status-badge ${req.status?.toLowerCase() || 'pending'}`}>
+                          {req.status}
                         </span>
                       )}
                     </div>
