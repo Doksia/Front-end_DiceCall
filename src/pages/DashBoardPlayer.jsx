@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../services/api';
-import './DashboardPlayer.css';
+import './DashBoardPlayer.css';
 
 export const DashboardPlayer = () => {
   const [characters, setCharacters] = useState([]);

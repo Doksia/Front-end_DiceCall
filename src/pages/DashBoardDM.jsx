@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { apiRequest } from '../services/api';
-import './DashboardDM.css';
+import './DashBoardDM.css';
 
 export const DashboardDM = () => {
   const { user } = useContext(AuthContext);
