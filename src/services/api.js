@@ -26,6 +26,11 @@ export const apiRequest = async (endpoint, method = 'GET', body = null) => {
     if (endpoint.startsWith('/requests')) {
       calibratedEndpoint = `/api${endpoint}`;
     }
+    console.log("--- CHEQUEO DE RUTA ---");
+console.log("BASE_URL es:", BASE_URL);
+console.log("calibratedEndpoint es:", calibratedEndpoint);
+console.log("URL FUSIONADA:", `${BASE_URL}${calibratedEndpoint}`);
+console.log("-----------------------");
     const response = await fetch(`${BASE_URL}${calibratedEndpoint}`, config);
     const data = await response.json();
     
