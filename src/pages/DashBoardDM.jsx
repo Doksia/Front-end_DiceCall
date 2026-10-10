@@ -19,6 +19,7 @@ export const DashboardDM = () => {
   const [editMaxPlayers, setEditMaxPlayers] = useState(1);
   const [editLookingFor, setEditLookingFor] = useState('All');
   const [editCampaignLevel, setEditCampaignLevel] = useState(1);
+  const [editCommunicationLink, setEditCommunicationLink] = useState('');
 
   useEffect(() => {
     const fetchDMCampaigns = async () => {
@@ -81,7 +82,8 @@ export const DashboardDM = () => {
         currentPlayers: Number(editCurrentPlayers), 
         max_players: Number(editMaxPlayers),
         maxPlayers: Number(editMaxPlayers), 
-        campaign_level: Number(editCampaignLevel)
+        campaign_level: Number(editCampaignLevel),
+        communication_link: editCommunicationLink
       };
 
       const responseData = await apiRequest(`/api/api/campaigns/${selectedCampaign._id}`, 'PUT', updatedData);
@@ -103,9 +105,7 @@ export const DashboardDM = () => {
       };
 
       await apiRequest(`/api/requests/${requestId}`, 'POST', updatedData);
-      setRequests(prev => prev.map(req => 
-        req._id === requestId ? { ...req, status: newStatus, request_status: newStatus } : req
-      ));
+      setRequests(prev => prev.filter(req => req._id !== requestId));
       
       alert(`Request processed successfully.`);
     } catch (err) {
@@ -198,6 +198,16 @@ export const DashboardDM = () => {
                       <option value="Tank and Dps">Tank and Dps</option>
                     </select>
                   </div>
+                  <div className="form-group">
+                    <label>Game Link (Discord/WhatsApp):</label>
+                     <input 
+                      type="text" 
+                      placeholder="https://discord.gg, DungeonMaster@mail.com, etc" 
+                      value={editCommunicationLink} 
+                      onChange={(e) => setEditCommunicationLink(e.target.value)} 
+                     />
+                  </div>
+                  
                   <div className="crud-actions-row">
                     <button type="button" className="btn-crud-cancel" onClick={() => setIsEditingCampaign(false)}>Cancel</button>
                     <button type="button" className="btn-crud-save" onClick={handleSaveCampaignEdit}>Save Changes</button>
@@ -210,6 +220,10 @@ export const DashboardDM = () => {
                   <p>Campaign Level: <strong>Lvl {selectedCampaign.campaign_level || 1}</strong></p>
                   <p>Players: <strong>{selectedCampaign.current_players} / {selectedCampaign.max_players}</strong></p>
                   <p>Looking for: <strong>{selectedCampaign.looking_for}</strong></p>
+                  {selectedCampaign.communication_link && (
+                    <p>🔗 <strong>Active Invite Link:</strong> <a href={selectedCampaign.communication_link} target="_blank" rel="noreferrer">{selectedCampaign.communication_link}</a></p>
+                  )}
+
                   <button type="button" className="btn-crud-edit-campaign" onClick={() => {
                     setEditGameSystem(selectedCampaign.game_system || '');
                     setEditFormat(selectedCampaign.format || 'Online');
@@ -219,6 +233,7 @@ export const DashboardDM = () => {
                     setEditLookingFor(selectedCampaign.looking_for || 'All');
                     setEditCampaignLevel(selectedCampaign.campaign_level || 1);
                     setIsEditingCampaign(true);
+                    setEditCommunicationLink(selectedCampaign.communication_link || '');
                   }}>
                     📝 Edit Table Configuration
                   </button>

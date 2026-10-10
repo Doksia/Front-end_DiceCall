@@ -86,6 +86,15 @@ export const DashboardPlayer = () => {
     }
   };
 
+  const handleDeleteRequest = async (requestId) => {
+  try {
+    await apiRequest(`/api/requests/${requestId}`, 'DELETE');
+    setRequests(prev => prev.filter(req => req._id !== requestId));
+  } catch (err) {
+    alert(err.message || 'Error clearing the request.');
+  }
+};
+
   if (loading) return <div className="loading-screen">🎒 Checking your characters sheets...</div>;
 
   return (
@@ -171,17 +180,80 @@ export const DashboardPlayer = () => {
               {requests.map(req => (
                 <div key={req._id} className="player-request-card">
                   <div className="req-header">
-                    <h4>{req.campaign?.title || `Campaña de ${req.campaign?.game_system || 'Rol'}`}</h4>
-                    <span className={`status-tag ${req.status?.toLowerCase() || 'pending'}`}>
-                      {req.status === 'Pending' && '⏳ Pending'}
-                      {req.status === 'Accepted' && '🛡️ Accepted'}
-                      {req.status === 'Rejected' && '❌ Rejected'}
-                      {req.status === 'Not requested' && '⚠️ Not requested'}
+                    <h4>{req.campaign?.title || `Campaign of ${req.campaign?.game_system || 'Roleplay'}`}</h4>
+                    <span className={`status-tag ${req.request_status?.toLowerCase() || 'pending'}`}>
+                      {req.request_status === 'Pending' && '⏳ Pending'}
+                      {req.request_status === 'Accepted' && '🛡️ Accepted'}
+                      {req.request_status === 'Rejected' && '❌ Rejected'}
+                      {req.request_status === 'Not requested' && '⚠️ Not requested'}
                     </span>
                   </div>
                   <p>👤 <strong>Character sent:</strong> {req.character?.name || 'Deleted sheet'}</p>
                   <p>🎙️ <strong>Format:</strong> {req.campaign?.format || 'Online'}</p>
                   <p className="req-date">Sent the: {new Date(req.createdAt).toLocaleDateString()}</p>
+                  
+                  {req.request_status === 'Accepted' && req.campaign?.communication_link && (
+  <div className="join-communication-zone" style={{ marginTop: '15px', padding: '12px', backgroundColor: '#e6f4ea', borderRadius: '6px', border: '1px solid #b7e1cd' }}>
+    <p style={{ margin: '0 0 8px 0', color: '#137333', fontWeight: 'bold' }}>🎉 You've been accepted to the party!</p>
+    
+    {/^(https?:\/\/|www\.)/i.test(req.campaign.communication_link) ? (
+      <a 
+        href={req.campaign.communication_link.startsWith('www.') ? `https://${req.campaign.communication_link}` : req.campaign.communication_link} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="btn-join-table"
+        style={{
+          display: 'inline-block',
+          backgroundColor: '#1b5e20',
+          color: 'white',
+          padding: '8px 12px',
+          borderRadius: '4px',
+          textDecoration: 'none',
+          fontWeight: 'bold',
+          fontSize: '0.9em',
+          textAlign: 'center'
+        }}
+      >
+        💬 Join Game Space
+      </a>
+    ) : (
+      <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: '4px', border: '1px solid #cce5ff', marginTop: '5px' }}>
+        <p style={{ margin: '0 0 4px 0', fontSize: '0.85em', color: '#666', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          📌 DM Contact Info:
+        </p>
+        <strong style={{ color: '#2b2b2b', fontSize: '1.05em', wordBreak: 'break-word' }}>
+          {req.campaign.communication_link}
+        </strong>
+      </div>
+    )}
+  </div>
+)}
+
+{req.request_status === 'Accepted' && !req.campaign?.communication_link && (
+  <div style={{ marginTop: '10px', color: '#666', fontSize: '0.9em', fontStyle: 'italic' }}>
+    Waiting for the DM to set up the game link...
+  </div>
+)}
+                 
+                  {req.request_status !== 'Pending' && (
+                    <div className="req-actions-row" style={{ marginTop: '12px', textAlign: 'right' }}>
+                      <button 
+                        type="button" 
+                        className="btn-clear-request" 
+                        onClick={() => handleDeleteRequest(req._id)}
+                        style={{ 
+                          cursor: 'pointer', 
+                          padding: '6px 12px', 
+                          borderRadius: '4px', 
+                          border: '1px solid #dcdcdc',
+                          backgroundColor: '#f9f9f9',
+                          fontWeight: '500'
+                        }}
+                      >
+                        🗑️ Clear Request
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

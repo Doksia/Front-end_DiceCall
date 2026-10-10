@@ -7,8 +7,8 @@ import { Register } from './pages/Register';
 import { Home } from './pages/Home';
 import { CharacterCreator } from './pages/CharacterCreator';
 import { CampaignCreator } from './pages/CampaignCreator';
-import { DashboardDM } from './pages/DashboardDM';
-import { DashboardPlayer } from './pages/DashboardPlayer';
+import { DashboardDM } from './pages/DashBoardDM';
+import { DashboardPlayer } from './pages/DashBoardPlayer';
 
 function App() {
   return (

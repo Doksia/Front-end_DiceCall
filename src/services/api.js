@@ -30,10 +30,8 @@ export const apiRequest = async (endpoint, method = 'GET', body = null) => {
     if (!response.ok) {
       throw new Error(data.Error || 'Error on the request');
     }
-    
     return data;
   } catch (error) {
-    console.error(`API Error in ${endpoint}:`, error.message);
     throw error;
   }
 };

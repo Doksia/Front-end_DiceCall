@@ -12,6 +12,7 @@ export const CampaignCreator = () => {
   const [maxPlayers, setMaxPlayers] = useState(4);
   const [campaignLevel, setCampaignLevel] = useState(1);
   const [title, setTitle] = useState(''); 
+  const [communicationLink, setCommunicationLink] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ export const CampaignCreator = () => {
       return setError('Game System and maximum players are mandatory.');
     }
    const campaignData = {
+      title: title,
       game_system: gameSystem,
       format: format,
       short_description: shortDescription ? shortDescription.substring(0, 199) : "",
@@ -36,7 +38,8 @@ export const CampaignCreator = () => {
       looking_for: lookingFor,
       current_players: Number(currentPlayers),
       max_players: Number(maxPlayers),
-      campaign_level: Number(campaignLevel)
+      campaign_level: Number(campaignLevel),
+      communication_link: communicationLink 
     };
 
     try {
@@ -139,6 +142,16 @@ export const CampaignCreator = () => {
               value={maxPlayers}
               onChange={(e) => setMaxPlayers(e.target.value)}
               required
+            />
+          </div>
+          <div className="form-group full-width">
+            <label htmlFor="communicationLink">Game Space Link (Discord / WhatsApp / Roll20)</label>
+            <input
+              type="text"
+              id="communicationLink"
+              placeholder="https://discord.gg, DungeonMaster@mail.com, etc"
+              value={communicationLink}
+              onChange={(e) => setCommunicationLink(e.target.value)}
             />
           </div>
 

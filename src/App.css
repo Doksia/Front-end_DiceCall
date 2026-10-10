@@ -182,3 +182,7 @@
     border-right-color: var(--border);
   }
 }
+
+html, body {
+  background-color: rgb(29, 29, 29) !important;
+}
