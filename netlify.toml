@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  VITE_API_URL = "https://back-end-dicecall.onrender.com"
