@@ -174,7 +174,7 @@ export const DashboardPlayer = () => {
         <section className="player-section">
           <h2>📜 My Applications ({requests.length})</h2>
           {requests.length === 0 ? (
-            <p className="no-data-text">You haven't applied for any campaigns yet. Go to the tabern to apply for joining a campaign.</p>
+            <p className="no-data-text">You haven't applied for any campaigns yet. Go to the tabern to join a campaign.</p>
           ) : (
             <div className="player-requests-container">
               {requests.map(req => (
