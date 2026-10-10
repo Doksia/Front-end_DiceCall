@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:5005'; 
+import { API_URL } from '../config/config';
+
+const BASE_URL = `${ API_URL }`; 
 export const apiRequest = async (endpoint, method = 'GET', body = null) => {
   const token = localStorage.getItem('roleapp_token');
   
